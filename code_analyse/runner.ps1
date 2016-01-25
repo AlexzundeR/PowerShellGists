@@ -7,5 +7,5 @@
 #Get-Project-References 'C:\FastJob\berth.starter\sources\Berth.Starter\berth.starter.csproj'
 
 
-Analyse-Code-Folder 'C:\FastJob\berth.ImportModule' -ignoreFilePath 'C:\FastJob\berth.starter\ignore.config'
+Analyse-Code-Folder 'C:\FastJob\berth' -ignoreFilePath 'C:\FastJob\berth.starter\ignore.config'
 

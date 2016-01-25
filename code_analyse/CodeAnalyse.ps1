@@ -42,11 +42,9 @@ Param
 
     $files =  Get-Files-Not-Ignored -itemPath (Get-Item $path) -ignorePatterns $ignorePatterns
     
-    $files | measure
+    'Всего файлов:' + ($files | measure ).Count
 
     $filesGroup = $files  | Group-Object {$_.Extension -replace '\.', ''} 
-
-    $filesGroup
 
     '----------------Отчет по типам файлов--------'
 
@@ -60,13 +58,17 @@ Param
 
     '---------------- csproj файлы --------'
     $projFiles = ($filesGroup | ? {$_.Name -eq 'csproj'})| %{$_.Group} | %{$_.Fullname}
-    '-----------------|---> Ссылки'
-
     $projFiles
 
-    $assemblies = $projFiles | Get-Project-References
+'-----------------|
+                  ---> Ссылки'
 
-    $assemblies | Out-Default
+
+    $assemblies = $projFiles |%{
+    Write-Host '------------------------------------'
+    Write-Host (Get-Project-References -ProjectPath $_)
+    }
+
 
     '--------------------------------------------'
 }
@@ -105,10 +107,11 @@ Param
             }
             else
             {
-                $files = [System.IO.Directory]::GetFiles($itemPath) | % {Get-Files-Not-Ignored -itemPath $_ -ignorePatterns $ignorePatterns}
-                $directories = [System.IO.Directory]::GetDirectories($itemPath) | % {Get-Files-Not-Ignored -itemPath $_ -ignorePatterns $ignorePatterns}
-                $result =  @($files,$directories)
-                return $result
+
+                $searchLoc  =[System.IO.Directory]::GetFiles($itemPath) + [System.IO.Directory]::GetDirectories($itemPath)
+                $files = $searchLoc | % {Get-Files-Not-Ignored -itemPath $_ -ignorePatterns $ignorePatterns} 
+                
+                return $files
             }
         }
     }

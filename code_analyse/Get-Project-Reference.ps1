@@ -10,7 +10,7 @@ Param
         HelpMessage= 'Enter the path to the project'
         )]
         [ValidateScript({Test-Path $_})]
-        [String[]]$ProjectPath
+        [String]$ProjectPath
     )
 
         
