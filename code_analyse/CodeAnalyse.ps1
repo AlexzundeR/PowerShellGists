@@ -54,7 +54,7 @@ Param
                             Sum = ($_.Group | Measure-Object Length -Sum).Sum
                             Count = ($_.Group | Measure-Object Length ).Count
                             }
-                        } | Sort-Object -Property @{Expression='Lang'; Descending=$true} | Out-Default
+                        } | Sort-Object -Property @{Expression='Lang'; Descending=$true}
 
     '---------------- csproj файлы --------'
     $projFiles = ($filesGroup | ? {$_.Name -eq 'csproj'})| %{$_.Group} | %{$_.Fullname}
@@ -62,14 +62,14 @@ Param
 
 '-----------------|
                   ---> Ссылки'
-
-
-    $assemblies = $projFiles |%{ Get-Project-References -ProjectPath $_}
-
-    $assemblies | Out-Default
+                  
+    foreach ($proj in $projFiles){
+        "####### Проект: "+$proj
+        "#######"
+        Get-Project-References -ProjectPath $proj |ft -Property Name,Company,Path
+    }
 
     '--------------------------------------------'
-    return $assemblies
 }
 
 function Get-Files-Not-Ignored(){

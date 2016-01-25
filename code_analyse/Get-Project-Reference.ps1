@@ -16,10 +16,10 @@ Param
         
 
     $path = $ProjectPath
-    $path
+    Write-Verbose $path
     [xml] $xml = Get-Content $path
     $parentPath = Split-Path $path -Parent
-    $parentPath
+    Write-Verbose $parentPath
     $references = $xml.Project.ItemGroup.Reference | %{
         $referencePath = ''
         $referenceType = ''
@@ -68,9 +68,9 @@ Param
              }
 
              New-Object psobject -Property @{
-                                Path = $ref.Path
-                                Company = $companyName
                                 Name = $assemblyName
+                                Company = $companyName
+                                Path = $ref.Path
                                 }
         }
         catch{
