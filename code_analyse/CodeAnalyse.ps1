@@ -64,13 +64,12 @@ Param
                   ---> Ссылки'
 
 
-    $assemblies = $projFiles |%{
-    Write-Host '------------------------------------'
-    Write-Host (Get-Project-References -ProjectPath $_)
-    }
+    $assemblies = $projFiles |%{ Get-Project-References -ProjectPath $_}
 
+    $assemblies | Out-Default
 
     '--------------------------------------------'
+    return $assemblies
 }
 
 function Get-Files-Not-Ignored(){
