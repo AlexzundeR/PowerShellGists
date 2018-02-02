@@ -1,0 +1,1 @@
+﻿.\dump.ps1 -elasticAddr "http://localhost:9200/berth" -types docAttribute -restore
